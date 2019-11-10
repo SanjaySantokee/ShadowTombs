@@ -18,7 +18,7 @@
   </a>
 
   <h3 align="center">Shadow Tombs</h3>
-  <h2 align="center">Java 2D Game</h2>
+  <h4 align="center">Java 2D Game</h4>
 
 
 <!-- TABLE OF CONTENTS -->
@@ -29,11 +29,7 @@
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
-* [Usage](#usage)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
 * [License](#license)
-* [Contact](#contact)
 * [Acknowledgements](#acknowledgements)
 
 
@@ -74,7 +70,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
+* [David](https://www.webpagefx.com/tools/emoji-cheat-sheet)
 
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
