@@ -70,7 +70,7 @@ public class GameManager extends GameCore {
         boopSound = new SoundClip();
         prizeSound = new SoundClip();
 
-        backgroundSound.open(Constants.BACKGROUND_SOUND);
+        backgroundSound.open("assets/sounds/zelda.wav");
 
         backgroundSound.play(0);
         backgroundSound.loop();
@@ -337,7 +337,12 @@ public class GameManager extends GameCore {
         }
         else{
             renderer.draw(g, map, screen.getWidth(), screen.getHeight());
-            g.drawString("Time Left:  00:00:" + secondsLeft, 10, 20);
+            g.drawString("Time Left:  00:00:" + secondsLeft, 20, 20);
+            g.drawString("Regroup with Artemis to escape the ShadowTombs", 300, 20);
+            if (!resourceManager.isEndgame())
+                g.drawString("Current Objective: Get to the sacred skeleton to find the path to Artemis", 300, 45);
+            else
+                g.drawString("Current Objective: Find Artemis and get away from here as fast as you can", 300, 45);
         }
     }
 
@@ -353,13 +358,10 @@ public class GameManager extends GameCore {
             return;
         }
 
-
         checkInput(elapsedTime);
-
 
         updateCreature(player, elapsedTime);
         player.update(elapsedTime);
-
 
         Iterator i = map.getSprites();
         while (i.hasNext()) {
@@ -452,8 +454,9 @@ public class GameManager extends GameCore {
             Creature badguy = (Creature) collisionSprite;
             if (canKill) {
 
-                boopSound.open("sounds/boop2.wav");
+                boopSound.open("assets/sounds/powerUp.wav");
                 boopSound.play(0);
+                secondsLeft += 2;
                 badguy.setState(Creature.STATE_DYING);
                 player.setY(badguy.getY() - player.getHeight());
                 player.jump(true);
@@ -472,9 +475,9 @@ public class GameManager extends GameCore {
     }
 
     public void acquirePowerUp(PowerUp powerUp) {
-
+        secondsLeft += 1;
         map.removeSprite(powerUp);
-        prizeSound.open("sounds/prize.wav");
+        prizeSound.open("assets/sounds/powerUp.wav");
 
         if (powerUp instanceof PowerUp.Star) {
 

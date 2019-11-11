@@ -362,18 +362,22 @@ public class ResourceManager {
 
 
         anim = new Animation();
-        anim.addFrame(loadImage("heart1.png"), 150);
-        anim.addFrame(loadImage("heart2.png"), 150);
-        anim.addFrame(loadImage("heart3.png"), 150);
-        anim.addFrame(loadImage("heart2.png"), 150);
+        anim.addFrame(loadImage("mist-1.png"), 90);
+        anim.addFrame(loadImage("mist-2.png"), 90);
+        anim.addFrame(loadImage("mist-3.png"), 90);
+        anim.addFrame(loadImage("mist-4.png"), 90);
+        anim.addFrame(loadImage("mist-5.png"), 90);
+        anim.addFrame(loadImage("mist-6.png"), 90);
         coinSprite = new PowerUp.Star(anim);
 
 
         anim = new Animation();
-        anim.addFrame(loadImage("music1.png"), 150);
-        anim.addFrame(loadImage("music2.png"), 150);
-        anim.addFrame(loadImage("music3.png"), 150);
-        anim.addFrame(loadImage("music2.png"), 150);
+        anim.addFrame(loadImage("mist-1.png"), 90);
+        anim.addFrame(loadImage("mist-2.png"), 90);
+        anim.addFrame(loadImage("mist-3.png"), 90);
+        anim.addFrame(loadImage("mist-4.png"), 90);
+        anim.addFrame(loadImage("mist-5.png"), 90);
+        anim.addFrame(loadImage("mist-6.png"), 90);
         musicSprite = new PowerUp.Music(anim);
     }
 
