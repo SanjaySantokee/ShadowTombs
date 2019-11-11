@@ -1,3 +1,4 @@
+import java.awt.*;
 
 public class Player extends Creature {
 
@@ -6,8 +7,8 @@ public class Player extends Creature {
     private boolean onGround;
 
     public Player(Animation left, Animation right,
-                  Animation deadLeft, Animation deadRight) {
-        super(left, right, deadLeft, deadRight);
+                  Animation deadLeft, Animation deadRight, Animation walkLeft, Animation walkRight) {
+        super(left, right, deadLeft, deadRight, walkLeft, walkRight, true);
     }
 
 

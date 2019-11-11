@@ -9,7 +9,7 @@ public class TileMapRenderer {
 
     private static final int TILE_SIZE_BITS = 6;
 
-    private Image background;
+    private Image background, skyBackground, rockBackground;
 
 
     public static int pixelsToTiles(float pixels) {
@@ -34,8 +34,10 @@ public class TileMapRenderer {
     }
 
 
-    public void setBackground(Image background) {
+    public void setBackground(Image background, Image rockBackground, Image skyBackground) {
         this.background = background;
+        this.rockBackground = rockBackground;
+        this.skyBackground = skyBackground;
     }
 
 
@@ -54,11 +56,12 @@ public class TileMapRenderer {
         int offsetY = screenHeight -
                 tilesToPixels(map.getHeight());
 
-
+//        use this to render sun and sky
         if (background == null ||
                 screenHeight > background.getHeight(null)) {
-            g.setColor(Color.black);
-            g.fillRect(0, 0, screenWidth, screenHeight);
+            g.drawImage(skyBackground, 0, 0, screenWidth, screenHeight, null);
+//            g.setColor(Color.RED);
+//            g.fillRect(0, 0, screenWidth, screenHeight);
         }
 
 
@@ -66,7 +69,7 @@ public class TileMapRenderer {
             int x = offsetX *
                     (screenWidth - background.getWidth(null)) /
                     (screenWidth - mapWidth);
-            int y = screenHeight - background.getHeight(null);
+            int y = screenHeight - background.getHeight(null) - 50;
 
             g.drawImage(background, x, y, null);
         }

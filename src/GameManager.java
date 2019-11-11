@@ -45,7 +45,9 @@ public class GameManager extends GameCore {
 
         renderer = new TileMapRenderer();
         renderer.setBackground(
-                resourceManager.loadImage("background.png"));
+                resourceManager.loadImage("backgrounds/mountainsRocksBackground.png"),
+                resourceManager.loadImage("backgrounds/skyBackground.png"),
+                resourceManager.loadImage("backgrounds/skyBackground.png"));
 
 
         map = resourceManager.loadNextMap();
@@ -97,9 +99,13 @@ public class GameManager extends GameCore {
             float velocityX = 0;
             if (moveLeft.isPressed()) {
                 velocityX -= player.getMaxSpeed();
+//                player.setWalkingLeft(true);
+//                player.setWalkingRight(false);
             }
             if (moveRight.isPressed()) {
                 velocityX += player.getMaxSpeed();
+//                player.setWalkingLeft(false);
+//                player.setWalkingRight(true);
             }
             if (jump.isPressed()) {
                 player.jump(false);
