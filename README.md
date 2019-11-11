@@ -1,11 +1,3 @@
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 
@@ -30,8 +22,6 @@
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [License](#license)
-* [Acknowledgements](#acknowledgements)
-
 
 
 <!-- ABOUT THE PROJECT -->
@@ -67,10 +57,6 @@ git clone https://github.com/SanjaySantokee/ShadowTombs.git
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-* [David](https://www.webpagefx.com/tools/emoji-cheat-sheet)
 
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
