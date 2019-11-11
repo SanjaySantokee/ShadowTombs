@@ -1,9 +1,20 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.Iterator;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.*;
+import java.util.List;
 import javax.sound.sampled.AudioFormat;
 
 public class GameManager extends GameCore {
+
+    private boolean win = false;
+    private int secondsLeft = 40;
+    private boolean loser = false;
+    private Scanner scoreScanner;
+    private List<Integer> highscores = new ArrayList<>();
+    private boolean computedScore = false;
+
 
     public static void main(String[] args) {
         new GameManager().run();
@@ -31,6 +42,8 @@ public class GameManager extends GameCore {
     private GameAction jump;
     private GameAction exit;
 
+    private Image endGame;
+
 
     public void init() {
         super.init();
@@ -49,7 +62,7 @@ public class GameManager extends GameCore {
                 resourceManager.loadImage("backgrounds/skyBackground.png"),
                 resourceManager.loadImage("backgrounds/skyBackground.png"));
 
-
+        endGame = resourceManager.loadImage("backgrounds/skyBackground.png");
         map = resourceManager.loadNextMap();
 
 
@@ -61,6 +74,96 @@ public class GameManager extends GameCore {
 
         backgroundSound.play(0);
         backgroundSound.loop();
+
+        startCountdown();
+        loadScoresFile();
+    }
+
+    public int getSecondsLeft() {
+        return secondsLeft;
+    }
+
+    public void setSecondsLeft(int secondsLeft) {
+        this.secondsLeft = secondsLeft;
+    }
+
+    //Does time countdown
+    private java.util.Timer countdown = new java.util.Timer();
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+
+            int secondsLeft = getSecondsLeft();
+
+            if (win) {
+                stopCountDown();
+                return;
+            }
+
+            if (secondsLeft - 1 < 0) {
+                loser = true;
+                stopCountDown();
+                return;
+            }
+
+            setSecondsLeft(secondsLeft - 1);
+
+
+//            System.out.println("Seconds Left: " + secondsLeft);
+        }
+    };
+
+    public void startCountdown() {
+        countdown.scheduleAtFixedRate(task, 2000, 1000);
+    }
+
+    public void stopCountDown() {
+        countdown.cancel();
+    }
+
+    public void loadScoresFile(){
+        try {
+            scoreScanner = new Scanner(new File("assets/scores/highscores.txt"));
+        } catch (Exception e){
+            System.out.println("Error Loading File : highscores.txt");
+        }
+
+        String scoreString;
+        int scoreValue = 0;
+
+        while(scoreScanner.hasNext()){
+            scoreString = scoreScanner.next();
+            scoreValue = Integer.valueOf(scoreString);
+            highscores.add(scoreValue);
+        }
+
+        scoreScanner.close();
+
+        Collections.sort(highscores, Collections.reverseOrder());
+    }
+
+    public List<Integer> getHighscores() {
+        return highscores;
+    }
+
+    public void setScore(int score){
+
+        if (computedScore)
+            return;
+
+        computedScore = true;
+
+        highscores.add(score);
+        Collections.sort(highscores, Collections.reverseOrder());
+
+        try{
+            FileWriter fw=new FileWriter("assets/scores/highscores.txt");
+            fw.write(getHighscores().get(0).toString() + "\n");
+            fw.write(getHighscores().get(1).toString() + "\n");
+            fw.write(getHighscores().get(2).toString() + "\n");
+            fw.close();
+        }catch(Exception e){System.out.println(e);}
+
     }
 
 
@@ -114,13 +217,6 @@ public class GameManager extends GameCore {
         }
 
     }
-
-
-    public void draw(Graphics2D g) {
-        renderer.draw(g, map,
-                screen.getWidth(), screen.getHeight());
-    }
-
 
     public TileMap getMap() {
         return map;
@@ -203,8 +299,52 @@ public class GameManager extends GameCore {
         return null;
     }
 
+    public void paintLeaderBoard(Graphics2D g2){
+        Font f = new Font("Consolas", Font.BOLD, 50);
+        g2.setFont(f);
+
+        g2.setColor(new Color(255, 255, 255));
+
+        g2.drawString("Leaderboard", 400, 270);
+
+        f = new Font("Consolas", Font.BOLD, 30);
+        g2.setFont(f);
+
+        g2.drawString("1. 00:00:" + highscores.get(0).toString(), 460, 300);
+        g2.drawString("2. 00:00:" + highscores.get(1).toString(), 460, 330);
+        g2.drawString("3. 00:00:" + highscores.get(2).toString(), 460, 360);
+
+        f = new Font("Calibri", Font.BOLD, 40);
+        g2.setFont(f);
+        g2.drawString("PRESS [ESC] TO QUIT", 400, 430);
+    }
+
+    public void draw(Graphics2D g) {
+
+        Font f = new Font("Calibri", Font.BOLD, 30);
+        g.setFont(f);
+
+        if (win) {
+            setScore(secondsLeft);
+            g.drawImage(endGame, 0, 0, screen.getWidth(), screen.getHeight(), null);
+            g.drawString("You Win !", screen.getWidth()/2, screen.getHeight()/2);
+            paintLeaderBoard(g);
+        }
+        else if(loser){
+            g.drawImage(endGame, 0, 0, screen.getWidth(), screen.getHeight(), null);
+            g.drawString("You Lose !", screen.getWidth()/2, screen.getHeight()/2);
+            paintLeaderBoard(g);
+        }
+        else{
+            renderer.draw(g, map, screen.getWidth(), screen.getHeight());
+            g.drawString("Time Left:  00:00:" + secondsLeft, 10, 20);
+        }
+    }
+
+
 
     public void update(long elapsedTime) {
+
         Creature player = (Creature) map.getPlayer();
 
 
@@ -325,6 +465,12 @@ public class GameManager extends GameCore {
     }
 
 
+    public void win(){
+        Graphics2D g = screen.getGraphics();
+        g.drawImage(endGame, 0,0, screen.getWidth(), screen.getHeight(), null);
+
+    }
+
     public void acquirePowerUp(PowerUp powerUp) {
 
         map.removeSprite(powerUp);
@@ -339,7 +485,13 @@ public class GameManager extends GameCore {
         } else if (powerUp instanceof PowerUp.Goal) {
 
             prizeSound.play(0);
-            map = resourceManager.loadNextMap();
+
+            if (resourceManager.isEndgame()){
+                this.win = true;
+            }
+            else
+                map = resourceManager.loadNextMap();
+
         }
     }
 

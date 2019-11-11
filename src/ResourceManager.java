@@ -19,6 +19,7 @@ public class ResourceManager {
     private Sprite grubSprite;
     private Sprite flySprite;
     private Sprite goalSprite2;
+    private boolean endgame = false;
 
 
     public ResourceManager(GraphicsConfiguration gc) {
@@ -28,6 +29,9 @@ public class ResourceManager {
         loadPowerUpSprites();
     }
 
+    public boolean isEndgame() {
+        return endgame;
+    }
 
     public Image loadImage(String name) {
         String filename = "assets/images/" + name;
@@ -71,12 +75,19 @@ public class ResourceManager {
 
     public TileMap loadNextMap() {
         TileMap map = null;
+
         while (map == null) {
+
             currentMap++;
+
+            if (currentMap == 2)
+                endgame = true;
+
             try {
                 map = loadMap(
                         "assets/maps/map" + currentMap + ".txt");
             } catch (IOException ex) {
+
                 if (currentMap == 1) {
 
                     return null;
