@@ -305,18 +305,18 @@ public class GameManager extends GameCore {
 
         g2.setColor(new Color(255, 255, 255));
 
-        g2.drawString("Leaderboard", 400, 270);
+        g2.drawString("Leaderboard", screen.getWidth()/2-150, screen.getHeight()/2);
 
         f = new Font("Consolas", Font.BOLD, 30);
         g2.setFont(f);
 
-        g2.drawString("1. 00:00:" + highscores.get(0).toString(), 460, 300);
-        g2.drawString("2. 00:00:" + highscores.get(1).toString(), 460, 330);
-        g2.drawString("3. 00:00:" + highscores.get(2).toString(), 460, 360);
+        g2.drawString("1. 00:00:" + highscores.get(0).toString(), screen.getWidth()/2-80, screen.getHeight()/2+50);
+        g2.drawString("2. 00:00:" + highscores.get(1).toString(), screen.getWidth()/2-80, screen.getHeight()/2+90);
+        g2.drawString("3. 00:00:" + highscores.get(2).toString(), screen.getWidth()/2-80, screen.getHeight()/2+130);
 
         f = new Font("Calibri", Font.BOLD, 40);
         g2.setFont(f);
-        g2.drawString("PRESS [ESC] TO QUIT", 400, 430);
+        g2.drawString("PRESS [ESC] TO QUIT", screen.getWidth()/2-180, screen.getHeight()/2+350);
     }
 
     public void draw(Graphics2D g) {
@@ -325,20 +325,24 @@ public class GameManager extends GameCore {
         g.setFont(f);
 
         if (win) {
+            f = new Font("Calibri", Font.BOLD, 70);
+            g.setFont(f);
             setScore(secondsLeft);
             g.drawImage(endGame, 0, 0, screen.getWidth(), screen.getHeight(), null);
-            g.drawString("You Win !", screen.getWidth()/2, screen.getHeight()/2);
+            g.drawString("You Win !", screen.getWidth()/2-100, screen.getHeight()/2 - 200);
             paintLeaderBoard(g);
         }
         else if(loser){
+            f = new Font("Calibri", Font.BOLD, 70);
+            g.setFont(f);
             g.drawImage(endGame, 0, 0, screen.getWidth(), screen.getHeight(), null);
-            g.drawString("You Lose !", screen.getWidth()/2, screen.getHeight()/2);
+            g.drawString("You Lose !", screen.getWidth()/2-100, screen.getHeight()/2);
             paintLeaderBoard(g);
         }
         else{
             renderer.draw(g, map, screen.getWidth(), screen.getHeight());
             g.drawString("Time Left:  00:00:" + secondsLeft, 20, 20);
-            g.drawString("Regroup with Artemis to escape the ShadowTombs", 300, 20);
+            g.drawString("Regroup with Artemis to escape the Shadow Tombs", 300, 20);
             if (!resourceManager.isEndgame())
                 g.drawString("Current Objective: Get to the sacred skeleton to find the path to Artemis", 300, 45);
             else
